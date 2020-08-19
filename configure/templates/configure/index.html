@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %}Manage{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'configure/bootstrap4-toggle.min.css' %}">
+<script rel="script" src="{% static 'configure/bootstrap4-toggle.min.js' %}"></script>
+<aside id="profile-info">
+
+    <div id="manage-choice" >
+        <button type="button" class="btn btn-light manage-option" value="manage-users" id="users" >Manage Users</button>
+        <button type="button" class="btn btn-light manage-option" value="change-pin" id="pin">Change PIN</button>
+        <button type="button" class="btn btn-light manage-option" value="rfid-manage" id="rfid">Manage RFID tags</button>
+        <button type="button" class="btn btn-light manage-option" value="maintain" id="maintbtn">Maintenance/Testing</button>
+        <button type="button" class="btn btn-light manage-option " value="restart" disabled>Restart System</button>
+        <button type="button" class="btn btn-light manage-option " value="sysinfo" id="sysinfobtn">System Information</button>
+        <button type="button" class="btn btn-danger manage-option" value="reset" disabled>Reset System</button>
+    </div>
+</aside>
+<section id="profile-config">
+{% bootstrap_messages %}
+    <button class="fas fa-times fa-2x exit" style= "display: none" value="exit"></button>
+
+    <div id="manage-users" class="manage_display" style="display: none">
+{% if user.is_superuser %}
+    <div style="margin-bottom: 10px">
+        <a href="{% url 'Manage:New User' %}"><button class="btn-primary btn">New User</button></a>
+
+    </div>
+    <form method="post">
+    {% csrf_token %}
+<table class="table table-hover  table-dark">
+    <thead>
+    <tr>
+    <th></th><th scope="col">Name</th><th scope="col">Username</th><th scope="col">E-mail Address</th><th scope="col">Superuser</th>
+    <th scope="col">Date Created</th><th>Last Login</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        {% for item in users %}
+            <tr>
+            <td><label>
+                <input type="checkbox" name="{{ item.username }}" value="{{ item.pk }}">
+            </label></td>
+            <td>{{ item.first_name }} {{ item.last_name }}</td><td>{{ item.username }}</td><td>{{ item.email}}</td>
+                <td>{{ item.is_superuser }}</td><td>{{ item.date_joined }}</td><td>{{ item.last_login }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteUserModal">Delete</button>
+
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    Are you sure you Want to delete the selected Users
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger" >Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="form" value="user">
+    </form>
+
+    {% else %}
+    <p>You must be a superuser to view this </p>
+    <p>ask the owner for superuser permission</p>
+    {% endif %}
+</div>
+
+    <div id="rfid-manage" class="manage_display" style="display: none">
+{% if user.is_superuser %}
+        <div style="margin-bottom: 10px">
+        <a href="{% url 'Manage:New Rfid' %}"><button class="btn-primary btn">New Tag</button></a>
+
+    </div>
+    <form method="post">
+    {% csrf_token %}
+
+<table class="table table-hover  table-dark">
+    <thead>
+    <tr>
+    <th></th><th scope="col">Name</th><th scope="col">Tag No</th><th scope="col">Date Created</th><th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+        {% for rfid in rfids %}
+            <tr>
+            <td><label>
+                <input type="checkbox" name="{{ rfid.ownername }}" value="{{ rfid.pk }}">
+            </label></td><td>{{ rfid.ownername }}</td><td>{{ rfid.code }}</td><td>{{ rfid.datecreated }}</td>
+                <td><a href="{% url 'Manage:Edit Rfid' pk=rfid.pk %}"><p>edit</p></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+        <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteRfidModal">Delete</button>
+
+    <div class="modal fade" id="deleteRfidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    Are you sure you Want to delete the selected tags
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger" >Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="hidden" name="form" value="rfid">
+    </form>
+    {% else %}
+    <p>You must be a superuser to view this </p>
+    <p>ask the owner for superuser permission</p>
+    {% endif %}
+</div>
+
+<div  id="sysinfo" class="manage_display" style="display: none">
+    <p><b>Device Name: </b>{{ hostname }}</p>
+        <p><b>IP Address: </b>{{ ip }}</p>
+        <p><b>Current User: </b>{{ user }}</p>
+        <p><b>Uptime: </b>{{ uptime }}</p>
+        <p><b>Alarm State: </b><span class="{{ armcolor }}">{{ armstate }}</span></p>
+</div>
+
+    <div  id="restart" class="manage_display" style="display: none">
+        {% if user.is_superuser %}
+{#    <h4>Restart System</h4>#}
+{#        <h6 class="text-danger">Note: During the restart period, Security lock will be unlocked</h6>#}
+{#            <h6>xx</h6>#}
+{#        <p>Are you sure you want to restart ?</p>#}
+{#        <form method="post">#}
+{#        {% csrf_token %}#}
+{#            <button class="btn btn-dark" type="button" onclick="$('#restart').css('display', 'none')">Cancel</button>#}
+{#            <button class="btn btn-danger" type="submit" onclick="alert('System is Restarting\nWeb Interface will be inactive till system is back up')">Restart</button>#}
+{#            <input type="hidden" name="form" value="restart">#}
+{#            </form>#}
+            {% else %}
+        <p>You must be a superuser to view this </p>
+        <p>ask the owner for superuser permission</p>
+        {% endif %}
+</div>
+
+    <div  id="change-pin" class="manage_display" style="display: none">
+        {% if user.is_superuser %}
+    <h4>Change PIN</h4>
+        <form method="post">
+        {% csrf_token %}
+            <div class="form-group">
+            <label>Current PIN
+                <input type="password" name="currentpin" placeholder="Current PIN" class="form-control" required>
+            </label>
+                </div>
+            <div class="form-group">
+            <label>New PIN
+                <input type="password" name="newpin" placeholder="New PIN" class="form-control" required>
+            </label>
+                </div>
+            <div class="form-group">
+            <label>Confirm PIN
+                <input type="password" name="confirmpin" placeholder="Confirm PIN" class="form-control" required>
+            </label>
+                </div>
+
+
+            <input type="hidden" name="form" value="changepin">
+            <button type="submit" class="btn btn-primary">Change</button>
+            </form>
+            {% else %}
+        <p>You must be a superuser to view this </p>
+        <p>ask the owner for superuser permission</p>
+        {% endif %}
+</div>
+
+    <div  id="maintain" class="manage_display" style="display: none">
+        {% if user.is_superuser %}
+    <h4>Maintenance/Testing</h4>
+        <form method="post">
+        {% csrf_token %}
+            <h5>LED</h5>
+            <div class="form-group">
+                <input type="checkbox" class="form-control" {% if red_state %}checked{% endif %} data-toggle="toggle" id="red_led" data-onstyle="danger" data-offstyle="secondary" data-width="100" >
+                <label for="red_led">Red LED</label>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" class="form-control" {% if blue_state %}checked{% endif %} data-toggle="toggle" id="blue_led" data-onstyle="primary" data-offstyle="secondary" data-width="100" >
+                <label for="blue_led">Blue LED</label>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" class="form-control" {% if green_state %}checked{% endif %} data-toggle="toggle" id="green_led" data-onstyle="success" data-offstyle="secondary" data-width="100" >
+                <label for="green_led">Green LED</label>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" class="form-control" {% if not door_state %}checked{% endif %} data-toggle="toggle" id="door_lock" data-onstyle="success" data-offstyle="danger" data-width="100" data-on="Locked" data-off="Unlocked">
+                <label for="door_lock">Door Lock</label>
+            </div>
+
+            <h5>Buzzer</h5>
+            <div class="form-group">
+                    <button type="button" class="btn btn-light" name="buzzon" onclick="" >On</button>
+                    <button type="button" class="btn btn-dark" name="buzzon" onclick="" >Off</button>
+                    <button type="button" class="btn btn-primary" name="buzz" onclick="" >Buzz</button>
+                </div>
+
+{#            <h5>Security System</h5>#}
+{#            <label>#}
+{#                <input type="checkbox" checked data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="primary" data-offstyle="secondary">#}
+{#            </label>#}
+
+            <h5>Camera</h5>
+            <button type="button" class="btn btn-danger" name="stopCamera" onclick="" >Stop Camera</button>
+            <button type="button" class="btn btn-primary" name="stopCamera" onclick="" >Start Camera</button>
+            <p>Status: "active/inactive"</p>
+
+
+
+            </form>
+            {% else %}
+        <p>You must be a superuser to view this </p>
+        <p>ask the owner for superuser permission</p>
+        {% endif %}
+</div>
+
+
+</section>
+    <script type="text/javascript" rel="script" src="{% static 'configure/script.js' %}"></script>
+    <script>
+    if(document.URL.indexOf("#rfid") >= 0 || document.URL.indexOf("%23rfid") >= 0 ){
+$('#rfid').click();
+}
+    else if(document.URL.indexOf("#users") >= 0 || document.URL.indexOf("%23users") >= 0 ){
+$('#users').click();
+}
+    else if(document.URL.indexOf("#pin") >= 0 || document.URL.indexOf("%23pin") >= 0){
+$('#pin').click();
+}
+    else if(document.URL.indexOf("#sysinfo") >= 0 || document.URL.indexOf("%23sysinfo") >= 0){
+$('#sysinfobtn').click();
+}
+    else if(document.URL.indexOf("#maintain") >= 0 || document.URL.indexOf("%23maintain") >= 0){
+$('#maintbtn').click();
+}
+    </script>
+{% endblock %}

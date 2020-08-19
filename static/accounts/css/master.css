@@ -1,0 +1,237 @@
+.login-contain{
+    width:40%;
+    min-height: 40vh;
+    background-color: rgba(0, 0, 0, 0.42);
+    padding: 30px;
+    margin: 100px auto auto;
+    border-radius:15px ;
+}
+#left-side{
+    margin-top: 7vh;
+    float: left;
+    width: 16.5%;
+    height:75vh;
+    background-color: #aca9a9;
+    margin-left: 1.5%;
+
+}
+#logview{
+    background-color: white;
+    width: 100%;
+    height: 94%;
+    padding-left: 10px;
+    overflow: auto;
+}
+#logview p{
+    font-size: 12px;
+}
+#monitorsurv img{
+    width: 100%;
+    height: 100%;
+}
+#left-side > h4, #right-side > h4{
+    margin-top:3%;
+    text-align: center;
+    color:white;
+}
+#monitorsurv{
+    height:75vh;
+    background-color: white;
+    margin-top: 7vh;
+    width: 60%;
+    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+#right-side{
+    margin-top: 7vh;
+    float: left;
+    width: 16.5%;
+    height:75vh;
+    background-color: #aca9a9;
+}
+#inside-right{
+    margin-left:15%;
+    margin-top: 20%;
+    color: white;
+}
+#profile-info {
+    background-color: grey;
+    float: left;
+    width: 25%;
+    height: 94.5vh;
+}
+#profile-info p{
+    background-color: #9d9d9d;
+    color: white;
+
+    padding-left: 10px;
+}
+#profile-info div{
+    height: 80%;
+    width:100%;
+    margin-bottom: 20px;
+
+}
+#profile-info img{
+    height: 400px;
+    width:100%;
+    background-color: white;
+    margin-bottom: 20px;
+}
+#profile-info p{
+    font-size: 15px;
+}
+#profile-config{
+    float: right;
+    width:75%;
+    height:94vh;
+    overflow: auto;
+}
+#manage-choice{
+    background-color: #919191;
+    width: 90%!important;
+    border-radius: 10px;
+    margin: 10vh auto;
+}
+.manage-option{
+    width:80%;
+    margin-left: 10%;
+    margin-top: 3vh;
+
+}
+.center{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+.profile-bt{
+    width: 49%;
+    margin-left: 1.5px;
+    margin-top: 30px;
+}
+.manage_display{
+    width:80%;
+    height: 70%;
+    margin: 5% auto auto;
+}
+#reviewVideo{
+    width: 80%;
+    height:94.5vh;
+    float: left;
+
+
+
+} #reviewLog{
+    width: 80%;
+    height:94.5vh;
+    float: left;
+    background-color: white;
+    padding-left: 20px;
+    line-height: 1;
+    font-size: 25px;
+}
+#videoList{
+    background-color: grey;
+    width: 20%;
+    height: 100%;
+    float: right;
+}
+
+#review-info{
+    background-color: grey;
+    float: left;
+    width: 20%;
+    height:94.5vh;
+}
+#videoBottom{
+    background-color: #9f9f9f;
+    width: 100%;
+    height: 30%;
+    padding-top: 20px;
+    padding-left: 20px;
+    float: left;
+}
+#videolistmessage{
+    text-align: center;
+    color: white;
+    margin-top: 50px;
+}
+#sectvid{
+    float: left;
+    height: 100%;
+    width: 80%;
+}
+#videoplayer{
+    width: 100%;
+    height:70%;
+}
+#videoList > ul{
+    padding: 0;
+}
+#videoList > ul > li{
+
+}
+#videoBottom > p{
+    font-size: 14px;
+}
+#edit-profile{
+    height:75vh;
+    width: 90%;
+    margin: 10vh auto auto;
+}
+#edit-password{
+    height:75vh;
+    width: 90%;
+    margin: 10vh auto auto;
+}
+.exit{
+background-color: transparent;
+    position: fixed;
+    top: 100px;
+    right: 60px;
+    border-style: none;
+}
+#sysinfo > p{
+    font-size: 15px;
+}
+#logdownbtn{
+    position: fixed;
+    top: 70px;
+    right: 80px;
+}
+#dateTime{
+    position: absolute;
+    margin: auto;
+    bottom: 0px;
+    width: 100%;
+}
+#indexleftpane{
+    background-color: grey;
+    width: 20%;
+    height: 94.5vh;
+    float: left;
+
+}
+#indexleftpane h4{
+    color: white;
+    text-align: center;
+    padding-top: 50px;
+
+}
+#indexleftpane h5{
+    color: white;
+    text-align: center;
+
+
+}
+#indexrightpane{
+    width: 80%;
+    height: 94.5vh;
+    float: right;
+
+}
+body {
+	margin: 0;
+	padding: 0;
+	background-color: Lightgrey!important;
+}

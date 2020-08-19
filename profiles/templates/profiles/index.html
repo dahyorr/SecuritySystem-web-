@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %}Profile | {{ user }}{% endblock %}
+{% block content %}
+
+<aside id="profile-info">
+    <div><img alt="image" src="{% static 'common/images/userimage.jpg' %}">
+    <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+    <p>Username: {{ user }}</p>
+    <p>E-mail: {{ user.email }}</p>
+    <p>Date Created: {{ user.date_joined }}</p>
+    <p>User Type: {% if user.is_superuser %} Superuser {% else %} Standard {% endif %}</p>
+    </div>
+
+    <button type="button" class="btn btn-light profile-bt" value="edit-profile">Edit profile</button>
+    <button type="button" class="btn btn-light profile-bt" value="change-password">Change Password</button>
+</aside>
+<section id="profile-config">
+    {% bootstrap_messages %}
+    <div id="edit-profile" class="container" style="display: none" >
+<form action="." method="post">
+    {% csrf_token %}
+    {% bootstrap_form form1 %}
+    {% bootstrap_button "Update" button_type="submit" button_class="btn-dark"  %}
+    <input type="hidden" name="form" value="edit-profile">
+</form>
+    </div>
+
+    <div id="edit-password" class="container" style="display: none" >
+<form action="." method="post">
+    {% csrf_token %}
+    {% bootstrap_form form2 %}
+    {% bootstrap_button "Update" button_type="submit" button_class="btn-dark"  %}
+    <input type="hidden" name="form" value="edit-password">
+</form>
+    </div>
+
+<script type="text/javascript" rel="script" src="{% static 'profile/script.js' %}"></script>
+    <script>
+        var error ="{{ error }}";
+
+        if (error === 'profile'){
+            $('#edit-profile').css( 'display', 'block')
+        }
+        else if (error === 'password'){
+            $('#edit-password').css( 'display', 'block')
+        }
+    </script>
+</section>
+{% endblock %}
+

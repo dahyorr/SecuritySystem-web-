@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %}{{ Title }}{% endblock %}
+{% block content %}
+<div class="container">
+{% if user.is_superuser %}
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button "Done" button_type="submit" button_class="btn-primary"  %}
+</form>
+{% else %}
+<h3>You Must be a super user</h3>
+{% endif %}
+</div>
+{% endblock %}

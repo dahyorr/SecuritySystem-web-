@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Monitor{% endblock %}
+{% block content %}
+
+
+    <aside id="left-side">
+    <h4>Recent Logs</h4>
+        <div id="logview">
+        {% for line in log %}
+           <p>{{ line }}</p>
+        {% endfor %}
+    </div>
+</aside>
+<div id="monitorsurv">
+    <img style="-webkit-user-select: none;margin: auto;" src="http://{{ ip }}" alt="Cam">
+</div>
+<aside id="right-side">
+    <h4>Status</h4>
+    <div id="inside-right">
+        <p>Alarm: <span class="{{ armcolor }}">{{ armstate }}</span></p>
+        <p>Door Lock: <span class="{{ lockcolor }}">{{ lockstate }}</span></p>
+    </div>
+</aside>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %}Review{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'review/plyr.css' %}">
+    <aside id="review-info">
+
+    <div id="review-choice">
+        <button type="button" class="btn btn-light manage-option" value="reviewVideo" id="videobtn"> Review Recorded videos</button>
+        <button type="button" class="btn btn-light manage-option" value="reviewLog" id="logbtn">Review logs</button>
+    </div>
+</aside>
+<section id="reviewLog" style="display: none" class="overflow-auto">
+    <a href="{% url 'Review:download log' %}"><button id="logdownbtn" class="btn btn-dark" type="button"><i class="fas fa-download"></i> Download</button></a>
+
+{% for line in log%}
+    <p>{{ line }}</p>
+{% endfor %}
+</section>
+
+<section id="reviewVideo" style="display: none">
+
+    <section id="sectvid">
+        <div id="videoplayer">
+            <video id="player" playsinline controls>
+                <source src="">
+            </video>
+        </div>
+    {% bootstrap_messages %}
+<div id="videoBottom" style="display: none">
+
+    <h4>File Information</h4>
+    <p class="video-info">Filename: </p>
+    <p class="video-info">Size: </p>
+    <p class="video-info">Available Space: </p>
+    <p class="video-info">Recordings Size: </p>
+    <div class="form-group">
+        <button class="btn btn-light download" type="button"><i class="fas fa-download"></i> Download</button>
+        <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash download"></i> Delete</button>
+        <a href="{% url 'Review:download all videos' %}"><button class="btn btn-dark" type="button"><i class="fas fa-download"></i> Download All Recordings</button></a>
+        <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteAllModal"><i class="fas fa-trash"></i> Delete All</button>
+    </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    Are you sure you Want to delete
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    Are you sure you want to delete all videos
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="{% if video == "" %}{% else %}{% url 'Review:delete all videos' %}{% endif %}"><button type="button" class="btn btn-danger">Delete All</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+<div id="videoList" class="overflow-auto">
+{% if files %}
+
+
+<ul class="list-group">
+
+{% for item in files %}
+
+    <button class="list-group-item list-group-item-action list-group-item-dark video-link" id="item{{ forloop.counter }}"
+            style="list-style: none" data-src="../media/Recordings/{{ item }}" data-name="{{ item }}"
+    data-id ="item{{ forloop.counter }}">{{ forloop.counter }}- {{ item }}</button>
+{% endfor %}
+
+
+</ul>
+
+{% else %}
+    <h4 style="text-align: center; padding-top: 15px">No videos Available</h4>
+{% endif %}
+</div>
+
+</section>
+    <script type="text/javascript" src="{% static 'review/plyr.js' %}"></script>
+    <script type="text/javascript" rel="script" src="{% static 'review/script.js' %}"></script>
+{% endblock %}

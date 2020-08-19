@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+    <section id="indexleftpane">
+    <h4>Quick Links</h4>
+    <a href="{% url 'Review:Index videos' %}"><button type="button" class="btn btn-light manage-option" > View Recorded videos</button></a>
+    <a href="{% url 'Monitor:Home' %}"><button type="button" class="btn btn-light manage-option" > View live Recording</button></a>
+    <a href="{% url 'Manage:Index users' %}"><button type="button" class="btn btn-light manage-option"> Manage Users</button></a>
+    <a href="{% url 'Manage:Index pin' %}"><button type="button" class="btn btn-light manage-option"> Change PIN</button></a>
+    <a href="{% url 'Manage:Index rfid' %}"><button type="button" class="btn btn-light manage-option"> Manage Rfid Tags</button></a>
+    <a href="{% url 'Review:Index log' %}"><button type="button" class="btn btn-light manage-option"> View Logs</button></a>
+    <a href="{% url 'Manage:Index System info' %}"><button type="button" class="btn btn-light manage-option" > System Info</button></a>
+
+        <div id="dateTime">
+        <h5>Date: {{ date }}</h5>
+    <h5>Time: <span id="time">{{ time }}</span></h5>
+    </div>
+</section>
+<section id="indexrightpane">
+
+</section>
+
+{% endblock %}
